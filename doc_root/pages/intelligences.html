@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cetus</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Loading Lib -->
+    <link href="/vendor/jquery-loading/dist/jquery.loading.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body onload="loadIntelligences(); loadSelects();">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; background: url('img/background.jpg'); background-size: 100% ">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="intelligences.html" style="font-family: 'Geneva CE', Courier, monospace; color: #ffffff; font-size: 24px;">Cetus</a>
+            </div>
+            <!-- /.navbar-header -->
+
+
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-cubes fa-fw"></i> Intelligences</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <!-- operations feedback -->
+            <div class="alert alert-success" id="feedback" style="width: 100%; display: none; float: right;">
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Intelligences</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+
+
+
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <table border="0" width="100%">
+                                <tr>
+                                    <td align="right">
+                                        <button type="button" class="btn btn-outline btn-success" data-toggle="modal" href="#modalIntelligenceMangmnt" onclick="modalIntelligenceMangmnt(null);">Create Intelligence</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+
+                        <!-- Modal new Intelligence -->
+                        <div class="modal fade" id="modalIntelligenceMangmnt">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title" id="titleManagerIntelligence">New Intelligence</h4>
+                                        <input type="hidden" id="intelligenceId" value=""/>
+                                    </div>
+
+                                    <form style="padding: 3%;">
+
+                                        <div class="form-group">
+                                            <table border="0" width="100%">
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-info-sign" style="color: red;" data-placement="bottom" data-toggle="tooltip" data-html="true" title="<b>Required!</b> <br>Intelligence name for identification"></span>
+                                                        <label for="intelligenceName">Name</label>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="intelligenceName" placeholder="Intelligence Name">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <table border="0" width="100%">
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-info-sign" style="color: red;" data-placement="bottom" data-toggle="tooltip" data-html="true" title="<b>Required!</b> <br>Category of this intelligence"></span>
+                                                        <label>Category</label>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="tdSelectCategoryIntelligence">
+                                                        <select class="form-control" id="selectIntelligenceCategory" name="selectIntelligenceCategory" >
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+
+                                        <div class="form-group" id="divFile">
+
+                                            <table border="0" width="100%">
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-info-sign" style="color: red;" data-placement="bottom" data-toggle="tooltip" data-html="true" title="<b>Required!</b> <br>File to training the intelligence"></span>
+                                                        <label>Upload File</label>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+
+                                                        <!-- temporary alteration to final project -->
+                                                        <button type="button" class="btn btn-outline btn-danger" data-toggle="modal" href="#modalFile" onclick="fileSelectedToIntelligence();//loadFileTypes();">Upload File</button>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <table border="0" width="100%">
+                                                <tr>
+                                                    <td>
+                                                        <span class="glyphicon glyphicon-info-sign" data-placement="bottom" data-toggle="tooltip" data-html="true" title="Description of intelligence"></span>
+                                                        <label>Description</label>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <textarea class="form-control" rows="3" placeholder="Intelligence Description" id="textAreaIntelligenceDescription"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+
+                                    </form>
+
+                                    <div class="modal-footer">
+                                        <table border="0" width="100%">
+                                            <tr>
+                                                <td align="left" id="intelligenceDataInc">
+
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-default" onclick="saveIntelligence();">Save</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- MODAL INTELLIGENCE USE-->
+                        <div class="modal fade" id="intelligenceModalUse">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title" id="modalUseTitle"></h4>
+                                        <input type="hidden" id="intelligenceIdModalUse" value=""/>
+                                        <input type="hidden" id="intelligenceIdUse" value=""/>
+                                    </div>
+
+                                    <div style="padding: 15px; overflow: auto;">
+                                        <div style="float: left; width: 300px;">
+                                            <table id="inputVariables" border="0">
+
+                                            </table>
+                                        </div>
+                                        <div style="width:200px; margin: 0 0 0 302px; text-align: center;">
+                                            <p>
+                                                <span style="font-size: 24px; font-weight:bold" id="classification">
+
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <table border="0" width="100%">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" class="btn btn-default" onclick="processInputs();">Process</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" border='1' id="tableIntelligences">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyIntelligences">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+
+
+
+            <div class="modal fade" id="modalFile">
+
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Instructions</h4>
+
+                            </div>
+                            <div class="container"></div>
+                            <div class="modal-body" id="modalFileType">
+                                <table border="0" width="40%">
+                                    <tr>
+                                        <td width="40%" >
+                                            Select your type file
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top: 10px;">
+                                            <form id="fileTypesIntelligence">
+
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+                            <div class="modal-body" id="modalInstructions" style="display: none;">
+                                <table border="0" width="40%">
+                                    <tr>
+                                        <td width="40%" style="text-align: center;">
+                                            The sheet you will submit, must have N columns named freely, where the first is the classification's column. The others columns represent the problem's variables. The remaining content you can set as you wish. If you have any questions, send an email to email@email.com
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top: 10px;">
+                                            <img src="img/format_sheet.png"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+                            <div class="modal-footer" id="divFooter">
+                                <button type='button' class='btn btn-default' id='btnPrev' style='visibility: hidden; position: absolute; right: 90%;'>Prev</button>
+
+                                <label class="btn btn-outline btn-danger" for="file" id='btnOpenFile' style='visibility: hidden;'>
+                                    <input type="file" id="file" style='display: none'>
+                                    Upload File
+                                </label>
+
+                                <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Loading Lib -->
+    <script src="/vendor/jquery-loading/dist/jquery.loading.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Cetus scripts -->
+    <script src="../js/intelligence.js"></script>
+    <script src="../js/general.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+
+    <!-- bootstrap tooltip -->
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#openBtn').click(function () {
+                $('#modalFile').modal({
+                    show: true
+                })
+            });
+
+            $(document).on('show.bs.modal', '.modal', function (event) {
+                var zIndex = 1040 + (10 * $('.modal:visible').length);
+                $(this).css('z-index', zIndex);
+                    setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+                }, 0);
+            });
+
+        });
+    </script>
+
+
+</body>
+
+</html>
