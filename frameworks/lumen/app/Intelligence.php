@@ -22,7 +22,7 @@ class Intelligence extends Model
         'id_resp_alt',
         'description',
         'id_category',
-        'id_file_type'
+        'id_data_type'
     ];
 
     protected $guarded = [];
@@ -35,8 +35,8 @@ class Intelligence extends Model
         return $this->belongsTo('App\IntelligenceCategory', 'id_category', 'id');
     }
 
-    public function fileType(){
-        return $this->belongsTo('App\IntelligenceFileType', 'id_file_type', 'id');
+    public function dataType(){
+        return $this->belongsTo('App\IntelligenceDataType', 'id_file_type', 'id');
     }
 
     public function mlp(){

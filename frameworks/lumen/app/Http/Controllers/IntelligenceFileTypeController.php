@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\IntelligenceFileType;
+use App\IntelligenceDataType;
 use App\NeuralNetwork;
 use App\Quotation;
 
-class IntelligenceFileTypeController extends Controller
+class IntelligenceDataTypeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,11 +18,11 @@ class IntelligenceFileTypeController extends Controller
     }
 
 
-    public function getIntelligenceFileTypes(){
+    public function getIntelligenceDataTypes(){
 
-        $aObjIntelligenceFileType = IntelligenceFileType::all();
+        $aObjIntelligenceDataType = IntelligenceDataType::all();
 
-        return response()->json($aObjIntelligenceFileType);
+        return response()->json($aObjIntelligenceDataType);
 
     }
 

@@ -2,9 +2,10 @@ insert into tbl_intelligence_category (category) values ('Classification');
 insert into tbl_intelligence_category (category) values ('Prevision');
 insert into tbl_intelligence_category (category) values ('Clustering');
 
-insert into tbl_intelligence_file_type (type) values ('Sheet');
-insert into tbl_intelligence_file_type (type) values ('Image');
-insert into tbl_intelligence_file_type (type) values ('Sound');
+insert into tbl_intelligence_data_type (type) values ('Sheet');
+insert into tbl_intelligence_data_type (type) values ('Image');
+insert into tbl_intelligence_data_type (type) values ('Sound');
+insert into tbl_intelligence_data_type (type) values ('Json');
 
 insert into tbl_log_type (type) values ('Creation');
 insert into tbl_log_type (type) values ('Use');

@@ -20,6 +20,11 @@ class IntelligenceController extends Controller
 
     }
 
+
+    /**
+     * Create an intelligence
+     *
+     */
     public function createIntelligence(Request $request){
 
         try{
@@ -54,12 +59,12 @@ class IntelligenceController extends Controller
             $request['id_category'] = $objIntelligenceCategory->id;
 
 
-            /** --------------- INTELLIGENCE FILE TYPE --------------- */
+            /** --------------- INTELLIGENCE DATA TYPE --------------- */
 
-            if (!$request->input('fileType'))
-                throw new Exception('A file type is necessary');
+            if (!$request->input('dataType'))
+                throw new Exception('A data type is necessary');
 
-            $request['id_file_type'] = $request->input('fileType');
+            $request['id_data_type'] = (int)$request->input('dataType');
 
             $objIntelligence = Intelligence::create($request->all());
 
@@ -100,110 +105,171 @@ class IntelligenceController extends Controller
                 ]
             );
 
-            /** --------------- FILE --------------- */
+            /** --------------- DATA TYPE--------------- */
 
-            if($request->input('fileType') == ID_INTELLIGENCE_TYPE_FILE_SHEET) {
+            switch($request->input('dataType')){
 
-                if (!$request->fileTraining) {
-                    throw new Exception("A file is necessary to train the intelligence");
-                }
+                case ID_DATA_TYPE_SHEET:
 
-                $tmpName = $request->fileTraining;
-
-                $csvAsArray = array_map('str_getcsv', file($tmpName));
-
-                $filePath = SHEETS_TO_TRANING_FOLDER . "{$objIntelligence->id}.csv";
-
-                $fp = fopen($filePath, 'w');
-
-                //classes (distinct of class column in the sheet)
-                $aClasses = array();
-
-                //variables (columns, less class column)
-                $aVariable = array();
-
-
-                foreach ($csvAsArray as $i => $row) {
-
-                    //catching the variables
-                    if($i == 0){
-
-                        //columns
-                        foreach($row as $j => $column){
-
-                            //mounting variables array of intelligence
-                            if($j != 0){
-                                $aVariable[] = $column;
-                            }
-
-                        }
-
+                    if (!$request->fileTraining) {
+                        throw new Exception("A file is necessary to train the intelligence");
                     }
 
-                    //if class field isn't in array, add
-                    if (!in_array($row[0], $aClasses) && $i != 0) {
-                        $aClasses[] = $row[0];
-                    }
+                    $tmpName = $request->fileTraining;
 
-                    fputcsv($fp, $row);
-                }
+                    $aData = array_map('str_getcsv', file($tmpName));
 
-                /** --------------- VARIABLES --------------- */
+                    break;
 
-                if($bMlp && $idMlp) {
-                    foreach ($aVariable as $variable) {
-                        DB::table('tbl_mlp_variable')->insert(
-                            ['id_mlp' => $idMlp,
-                                'name' => $variable
-                            ]
-                        );
-                    }
-                }
+                case ID_DATA_TYPE_JSON:
 
-                /** --------------- CLASSIFICATIONS --------------- */
+                    $jsonData = file_get_contents("php://input");
 
-                if($bMlp && $idMlp) {
-                    foreach ($aClasses as $key=>$class) {
+                    $aData = json_decode($jsonData);
 
-                        //the output number of each classification
-                        $outputNumber = "";
+                    //stdClass to array
+                    $aData = (array)$aData;
 
-                        //mounting the classification number
-                        for($i=0 ; $i < count($aClasses) ; $i++){
+                    //body of array
+                    $aData = $aData["data"];
 
-                            //in color classification, the first classification is 1000, second 0100...
-                            //considering that exists 4 classifications
-                            if($key == $i){
-                                $outputNumber .= "1";
-                            } else {
-                                $outputNumber .= "0";
-                            }
+                    throw new Exception("validar funcionamento abaixo");
 
-                        }
+                    break;
 
-                        DB::table('tbl_mlp_classification')->insert(
-                            ['id_mlp' => $idMlp,
-                                'name' => $class,
-                                'output_number' => $outputNumber
-                            ]
-                        );
-                    }
-                }
+                default:
 
-                MlpController::saveNetwork($tmpName, $objIntelligence->id);
+                    throw new Exception("Invalid data type");
 
-                chmod($filePath, 0777);
-
-                fclose($fp);
-
-                //C++ MLP with a bug in synapsis correction
-                //$statusCodeMlp = exec(EXEC_MLP . " filePath={$filePath} intelligenceId={$objIntelligence->id}");
-
-            } else {
-
-                //temp error
-                throw new Exception("File type inactive. Select Sheet");
+                    break;
             }
+
+            //classes (distinct of class column in the sheet)
+            $aClasses = array();
+
+            //variables (columns, less class column)
+            $aVariable = array();
+
+            //minimum and maximum values of each variable
+            $aMinMax = array();
+
+
+            foreach ($aData as $i => $row) {
+
+                //catching the variables
+                if($i == 0){
+
+                    //columns
+                    foreach($row as $j => $column){
+
+                        //mounting variables array of intelligence
+                        if($j != 0){
+                            $aVariable[] = $column;
+                        }
+
+                    }
+
+                }
+
+                //if class field isn't in array, and class isn't the min or max values, add
+                if (!in_array($row[0], $aClasses) && $i != 0 && $row[0] != "min" && $row[0] != "max") {
+                    $aClasses[] = $row[0];
+                }
+
+                if($row[0] == "min"){
+
+                    //catch min values (columns in a row)
+                    foreach($row as $key=>$minValue) {
+
+                        //first column
+                        if($key == 0){
+                            continue;
+                        }
+
+                        $aMinMax["min"][] = $minValue;
+                    }
+                }
+
+                if($row[0] == "max"){
+
+                    //catch max values (columns in a row)
+                    foreach($row as $key=>$minValue) {
+
+                        //first column
+                        if($key == 0){
+                            continue;
+                        }
+
+                        $aMinMax["max"][] = $minValue;
+                    }
+                }
+
+            }
+
+            /** --------------- VARIABLES --------------- */
+
+            if($bMlp && $idMlp) {
+                foreach ($aVariable as $key=>$variable) {
+
+                    //inserting the variables
+                    $idVariable = DB::table('tbl_mlp_variable')->insertGetId(
+                        ['id_mlp' => $idMlp,
+                            'name' => $variable
+                        ]
+                    );
+
+                    //inserting each max values of each variable
+                    DB::table('tbl_min_max_values')->insert(
+                        ['min_or_max' => "max",
+                            'value' => $aMinMax["max"][$key],
+                            'id_variable' => $idVariable
+                        ]
+                    );
+
+                    //inserting each min values of each variable
+                    DB::table('tbl_min_max_values')->insert(
+                        ['min_or_max' => "min",
+                            'value' => $aMinMax["min"][$key],
+                            'id_variable' => $idVariable
+                        ]
+                    );
+
+                }
+            }
+
+            /** --------------- CLASSIFICATIONS --------------- */
+
+            if($bMlp && $idMlp) {
+                foreach ($aClasses as $key=>$class) {
+
+                    //the output number of each classification
+                    $outputNumber = "";
+
+                    //mounting the classification number
+                    for($i=0 ; $i < count($aClasses) ; $i++){
+
+                        //in color classification, the first classification is 1000, second 0100...
+                        //considering that exists 4 classifications
+                        if($key == $i){
+                            $outputNumber .= "1";
+                        } else {
+                            $outputNumber .= "0";
+                        }
+
+                    }
+
+                    DB::table('tbl_mlp_classification')->insert(
+                        ['id_mlp' => $idMlp,
+                            'name' => $class,
+                            'output_number' => $outputNumber
+                        ]
+                    );
+                }
+            }
+
+            MlpController::saveNetwork($aData, $objIntelligence->id);
+
+
 
             DB::commit();
 
@@ -218,41 +284,48 @@ class IntelligenceController extends Controller
 
     }
 
+
+    /**
+     * Get output, according inputs gave
+     *
+     */
     public function getOutput($inputs, $intelligenceId){
 
         $inputs = explode("-", $inputs);
 
-        $sample = array_map('str_getcsv', file(SHEETS_TO_TRANING_FOLDER."{$intelligenceId}.csv"));
+        $rsMinMaxValues = DB::select("select * from tbl_min_max_values min_max
+                              inner join tbl_mlp_variable variable on variable.id = min_max.id_variable
+                              inner join tbl_mlp mlp on mlp.id = variable.id_mlp
+                              where mlp.id_intelligence = {$intelligenceId};
+                          ");
 
-        //array that represent the max value of each column
-        $aMax = MlpController::getMinOrMaxValues($sample, "max");
+        foreach($rsMinMaxValues as $minMaxValue){
 
-        //array that represent the min value of each column
-        $aMin = MlpController::getMinOrMaxValues($sample, "min");
+            if($minMaxValue->min_or_max == "max"){
+                $aMax[] = $minMaxValue->value;
+            }
 
-        $inputs = MlpController::normalizeInput($inputs, $aMin, $aMax);
-
-
-        /*
-        foreach(explode("and", $inputs) as $strInput){
-
-            //verifying if prefix contains id
-            if(strpos($strInput, "neuron") === false) {
-
-                //TODO: IMPLEMENT THE RECOGNIZE BY NAME
-                throw new Exception("The index of inputs are invalid. Should be 'neuron_X', where X is the id of neuron");
+            if($minMaxValue->min_or_max == "min"){
+                $aMin[] = $minMaxValue->value;
             }
 
         }
 
-        $date = date("Y-m-d_H:i:s");
-
-        $output = exec(EXEC_MLP . " inputs={$inputs} date={$date} intelligenceId={$intelligenceId}");
-        */
+        $inputs = MlpController::normalizeInput($inputs, $aMin, $aMax);
 
         $outputs = MlpController::getOutput($intelligenceId, $inputs);
 
-        $aClassifications = MlpController::getClassifications($sample);
+        $rsClassifications = DB::select("select * from tbl_mlp_classification class
+                              inner join tbl_mlp mlp on mlp.id = class.id_mlp
+                              where mlp.id_intelligence = {$intelligenceId}
+                              order by class.output_number desc;
+                          ");
+
+        foreach($rsClassifications as $classification){
+
+            $aClassifications[] = $classification->name;
+
+        }
 
         //index of greater value in classifications array
         $indexGreaterValue = 0;
@@ -271,6 +344,10 @@ class IntelligenceController extends Controller
     }
 
 
+    /**
+     * Return intelligence, according id gave
+     *
+     */
     public function getIntelligence($id){
 
         try {
@@ -291,6 +368,10 @@ class IntelligenceController extends Controller
         }
     }
 
+    /**
+     * Delete intelligence, according id gave
+     *
+     */
     public function deleteIntelligence($id){
 
         try {
@@ -307,7 +388,6 @@ class IntelligenceController extends Controller
             //removing files
             unlink(DATA_TO_TRANING_FOLDER."{$id}.data");
             unlink(NETS_FOLDER."{$id}.net");
-            unlink(SHEETS_TO_TRANING_FOLDER."{$id}.csv");
 
             DB::commit();
 
@@ -323,6 +403,10 @@ class IntelligenceController extends Controller
 
     }
 
+    /**
+     * Update intelligence, according id and fields gave
+     *
+     */
     public function updateIntelligence(Request $request,$id){
 
         try {
@@ -352,7 +436,7 @@ class IntelligenceController extends Controller
 
             $objIntelligence->save();
 
-            DB::rollBack();
+            DB::commit();
 
             return response()->json('Intelligence updated');
 
@@ -364,7 +448,10 @@ class IntelligenceController extends Controller
         }
     }
 
-
+    /**
+     * Return intelligences by the id_resp_inc
+     *
+     */
     public function getAllIntelligencesPerUser($idUser){
 
         try {

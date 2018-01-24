@@ -120,6 +120,6 @@ $router->group(['prefix' => 'api/v1/'], function($router){
 
 $router->group(['prefix' => 'api/v1/'], function($router){
 
-    $router->get('intelligenceFileType/','IntelligenceFileTypeController@getIntelligenceFileTypes');
+    $router->get('intelligenceDataType/','IntelligenceDataTypeController@getIntelligenceDataTypes');
 
 });

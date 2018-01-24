@@ -342,9 +342,7 @@ class MlpController extends Controller
      * Train and save network
      *
      */
-    public static function saveNetwork($tmpName, $intelligenceId){
-
-        $sample = array_map('str_getcsv', file($tmpName));
+    public static function saveNetwork($sample, $intelligenceId){
 
         //array that represent the max value of each column
         $aMax = self::getMinOrMaxValues($sample, "max");

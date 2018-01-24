@@ -11,14 +11,14 @@ define('ID_LOG_TYPE_USE', 2);
 define('ID_LOG_TYPE_MODIFICATION', 3);
 
 /** tbl_intelligence_file_type */
-define('ID_INTELLIGENCE_TYPE_FILE_SHEET', 1);
-define('ID_INTELLIGENCE_TYPE_FILE_IMAGE', 2);
-define('ID_INTELLIGENCE_TYPE_FILE_SOUND', 3);
+define('ID_DATA_TYPE_SHEET', 1);
+define('ID_DATA_TYPE_IMAGE', 2);
+define('ID_DATA_TYPE_SOUND', 3);
+define('ID_DATA_TYPE_JSON', 4);
 
 /** file system paths */
 define('FILES_FOLDER', '/var/www/html/octhum/files/');
 define('MODULES_FOLDER', '/var/www/html/octhum/modules/');
-define('SHEETS_TO_TRANING_FOLDER', FILES_FOLDER.'sheets/');
 define('DATA_TO_TRANING_FOLDER', FILES_FOLDER.'data/');
 define('NETS_FOLDER', FILES_FOLDER.'nets/');
 define('EXEC_MLP', MODULES_FOLDER.'octhum.mlp/octhum.mlp');

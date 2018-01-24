@@ -180,6 +180,8 @@ function saveIntelligence(){
             data: {_method: 'put'},
             success: function(data) {
 
+                loadIntelligences();
+
                 showMessage(data, "success");
 
                 $('#modalIntelligenceMangmnt').modal('toggle');
@@ -204,8 +206,8 @@ function saveIntelligence(){
         }
 
         if($("#selectIntelligenceCategory").val()) {
-            var fileType = 1;
-            //var fileType = $('input[name=radioFileTypeIntelligence]:checked', '#fileTypesIntelligence').val();
+            var dataType = 1;
+            //var dataType = $('input[name=radioDataTypeIntelligence]:checked', '#dataTypesIntelligence').val();
         }
 
         var intelligenceDescription = $("#textAreaIntelligenceDescription").val();
@@ -232,7 +234,7 @@ function saveIntelligence(){
 
 
         $.ajax({
-            url: 'http://localhost:8000/api/v1/intelligence?name='+intelligenceName+'&category='+category+'&description='+intelligenceDescription+'&userEmail='+email+'&fileType='+fileType,
+            url: 'http://localhost:8000/api/v1/intelligence?name='+intelligenceName+'&category='+category+'&description='+intelligenceDescription+'&userEmail='+email+'&dataType='+dataType,
             type: 'post',
             data: fd,
             processData: false,
@@ -295,7 +297,7 @@ function deleteIntelligence(id){
 }
 
 function fileSelectedToIntelligence(){
-    $("#modalFileType").hide();
+    $("#modalDataType").hide();
     $("#modalInstructions").animate({width:'toggle'},350);
     $("#modalInstructions").show();
 
@@ -308,8 +310,8 @@ $(document).ready(function(){
 
     $("#btnPrev").click(function(){
         $("#modalInstructions").hide();
-        $("#modalFileType").animate({width:'toggle'},350);
-        $("#modalFileType").show();
+        $("#modalDataType").animate({width:'toggle'},350);
+        $("#modalDataType").show();
 
         $('#btnPrev').css("visibility", "hidden");
         $('#btnOpenFile').css("visibility", "hidden");
@@ -330,16 +332,16 @@ $(document).ready(function(){
  * Load file types to user select in intelligence creation
  *
  */
-function loadFileTypes(){
+function loadDataTypes(){
 
-    $("#fileTypesIntelligence").html("");
+    $("#dataTypesIntelligence").html("");
 
     //getting the intelligence
-    $.get("http://localhost:8000/api/v1/intelligenceFileType/", function (data) {
+    $.get("http://localhost:8000/api/v1/intelligenceDataType/", function (data) {
 
         jQuery.each(data, function () {
 
-            $("#fileTypesIntelligence").append("<div class='radio'><label><input type='radio' onclick='fileSelectedToIntelligence();' name='radioFileTypeIntelligence' value='"+this["id"]+"' id='rbFileType'>"+this["type"]+"</label></div>");
+            $("#dataTypesIntelligence").append("<div class='radio'><label><input type='radio' onclick='fileSelectedToIntelligence();' name='radioDataTypeIntelligence' value='"+this["id"]+"' id='rbDataType'>"+this["type"]+"</label></div>");
 
         });
 

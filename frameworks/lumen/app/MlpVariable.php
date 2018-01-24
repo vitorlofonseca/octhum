@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Mockery\CountValidator\Exception;
 
 class MlpVariable extends Model
 {
@@ -18,6 +19,19 @@ class MlpVariable extends Model
         'id'
     ];
 
+    public function MinMaxValues(){
+        return $this->hasMany('App\MinMaxValues', 'id_variable', 'id');
+    }
+
     protected $guarded = [];
+
+    public function delete(){
+
+        foreach($this->minMaxValues as $minMaxValue){
+            $minMaxValue->delete();
+        }
+
+        return parent::delete();
+    }
 
 }

@@ -4,19 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IntelligenceDataType extends Model
+class MinMaxValues extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tbl_intelligence_file_type';
+    protected $table = 'tbl_min_max_values';
 
     protected $fillable = [
-        'id',
-        'type'
+        'min_or_max',
+        'values'
     ];
 
     protected $guarded = [];
+
 }
