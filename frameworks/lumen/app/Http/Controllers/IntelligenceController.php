@@ -133,8 +133,6 @@ class IntelligenceController extends Controller
                     //body of array
                     $aData = $aData["data"];
 
-                    throw new Exception("validar funcionamento abaixo");
-
                     break;
 
                 default:
