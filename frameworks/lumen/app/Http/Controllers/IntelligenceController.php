@@ -31,6 +31,9 @@ class IntelligenceController extends Controller
 
             DB::beginTransaction();
 
+            if (!$request->input('name'))
+                throw new Exception('An name to identify the intelligence is necessary');
+
             /** --------------- RESP_INC --------------- */
             if (!$request->input('userEmail'))
                 throw new Exception('An email to identify the user is necessary');
@@ -277,7 +280,7 @@ class IntelligenceController extends Controller
 
             DB::rollBack();
 
-            return response()->json(['returnMsg' => $e->getMessage()],400);
+            return response()->json(['returnMsg' => $e->getMessage()],500);
         }
 
     }
