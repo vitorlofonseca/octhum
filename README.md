@@ -5,7 +5,4 @@ Introduction
 
 The solution is an REST API developed in PHP that works based in SaaS technology, allowing third-part software customisation.
 
-To more information, contact vitorlofonseca@gmail.com
-
-
 **To more information, contact [vitorlofonseca@gmail.com](vitorlofonseca@gmail.com)**
