@@ -41,7 +41,7 @@ class IntelligenceController extends Controller
             $objUser = DB::table('tbl_user')->where('email', 'like', $request->input('userEmail'))->first();
 
             if (!is_object($objUser))
-                throw new Exception('Invalid user. Try with other user email');
+                throw new Exception('Invalid user. Try with another user email');
 
             $request['id_resp_inc'] = $objUser->id;
 

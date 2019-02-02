@@ -17,11 +17,9 @@ define('ID_DATA_TYPE_SOUND', 3);
 define('ID_DATA_TYPE_JSON', 4);
 
 /** file system paths */
-define('FILES_FOLDER', '/var/www/html/octhum/files/');
-define('MODULES_FOLDER', '/var/www/html/octhum/modules/');
-define('DATA_TO_TRANING_FOLDER', FILES_FOLDER.'data/');
-define('NETS_FOLDER', FILES_FOLDER.'nets/');
-define('EXEC_MLP', MODULES_FOLDER.'octhum.mlp/octhum.mlp');
+define('FILES_FOLDER', $_SERVER["DOCUMENT_ROOT"] . '..\\..\\..\\..\\files\\');
+define('DATA_TO_TRANING_FOLDER', FILES_FOLDER.'data\\');
+define('NETS_FOLDER', FILES_FOLDER.'nets\\');
 
 /** return error codes of mlp 1+CODE_ERROR*/
 define('MLP_SUCCESSFUL_CREATED', 1);

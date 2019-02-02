@@ -12,7 +12,7 @@ function loadSelects(){
 
         $.get("http://localhost:8000/api/v1/intelligenceCategory", function (data) {
             jQuery.each(data, function () {
-                $("#selectIntelligenceCategory").append('<option value=' + this["category"] + '>' + this["category"] + '</option>');
+                $("#selectIntelligenceCategory").append('<option value="' + this["category"] + '">' + this["category"] + '</option>');
             });
         });
 
@@ -202,7 +202,7 @@ function saveIntelligence(){
         var intelligenceName = $("#intelligenceName").val();
 
         if($("#selectIntelligenceCategory").val()) {
-            var category = $("#selectIntelligenceCategory").val().toLowerCase();
+            var category = $("#selectIntelligenceCategory").val();
         }
 
         if($("#selectIntelligenceCategory").val()) {
@@ -259,8 +259,6 @@ function saveIntelligence(){
                 $('body').loading('stop');
 
                 showMessage(data.responseJSON["returnMsg"], "error");
-
-                //console.log(data);
             }
         });
 
@@ -289,8 +287,8 @@ function deleteIntelligence(id){
         },
         error: function(data){
 
-            console.log();
-            showMessage(data.responseJSON["returnMsg"], "error");
+            console.log(data);
+            showMessage(data.responseText["returnMsg"], "error");
         }
     });
 

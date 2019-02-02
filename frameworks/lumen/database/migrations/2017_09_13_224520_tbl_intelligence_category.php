@@ -17,6 +17,18 @@ class TblIntelligenceCategory extends Migration
             $table->increments('id');
             $table->string('category');
         });
+
+        DB::table('tbl_intelligence_category')->insert(
+            array(
+                'category' => 'Neural Network'
+            )
+        );
+
+        DB::table('tbl_intelligence_category')->insert(
+            array(
+                'category' => 'Specialist System'
+            )
+        );
     }
 
     /**

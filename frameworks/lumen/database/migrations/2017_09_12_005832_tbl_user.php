@@ -24,6 +24,15 @@ class TblUser extends Migration
             $table->integer('id_resp_inc')->unsigned();
             $table->integer('id_resp_alt')->unsigned()->nullable();
         });
+
+        DB::table('tbl_user')->insert(
+            array(
+                'name' => 'test',
+                'email' => 'admin@admin.com',
+                'password' => 'test',
+                'username' => 'test'
+            )
+        );
     }
 
     /**

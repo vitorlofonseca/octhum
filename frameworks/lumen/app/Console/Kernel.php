@@ -11,10 +11,10 @@ class Kernel extends ConsoleKernel
      * The Artisan commands provided by your application.
      *
      * @var array
-     */
-    protected $commands = [
+     * protected $commands = [
         'App\Console\Commands\KeyGenerateCommand'
-    ];
+        ];
+     */
 
     /**
      * Define the application's command schedule.
