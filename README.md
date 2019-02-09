@@ -3,7 +3,7 @@ Octhum
 
 ### Introduction
 
-Artificial Intelligences, initially, needs a base containing information that describes the application scope, to learn about it. The big problem is the reading of this base, done by each software in a different way. In an example, if person X needs a neural network to learn about whale species, he will use an application A. If he needs, in another moment, an application to learn about lion species, he will needs another application. 
+Artificial Intelligences, initially, need a base containing information that describes the application scope, to learn about it. The big problem is the reading of this base, done by each software in a different way. In an example, if person X needs a neural network to learn about whale species, he will use an application A. If he needs, in another moment, an application to learn about lion species, he will needs another application. 
 
 **Octhum** is a open-source platform that allows many intelligences in the same application, requiring only that the bases to learn about the scopes being in the same format, pre-defined. In this way, if the person X, cited previously, needs more than one intelligence applied to different scopes, he will have.
 
