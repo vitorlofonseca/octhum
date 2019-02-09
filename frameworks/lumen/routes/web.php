@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-require_once "../app/Http/Controllers/Constants/ids.constants.php";
+require_once dirname(__DIR__)."/app/Http/Controllers/Constants/ids.constants.php";
 
 date_default_timezone_set('America/Sao_Paulo');
 

@@ -20,13 +20,19 @@ class TblIntelligenceCategory extends Migration
 
         DB::table('tbl_intelligence_category')->insert(
             array(
-                'category' => 'Neural Network'
+                'category' => 'Classification'
             )
         );
 
         DB::table('tbl_intelligence_category')->insert(
             array(
-                'category' => 'Specialist System'
+                'category' => 'Prevision'
+            )
+        );
+
+        DB::table('tbl_intelligence_category')->insert(
+            array(
+                'category' => 'Clustering'
             )
         );
     }

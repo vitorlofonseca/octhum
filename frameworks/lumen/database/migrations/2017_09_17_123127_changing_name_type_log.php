@@ -20,7 +20,28 @@ class ChangingNameTypeLog extends Migration
             $table->renameColumn('id_type_log', 'id_log_type');
 
         });
+
+        DB::table('tbl_log_type')->insert(
+            array(
+                'type' => 'Creation'
+            )
+        );
+
+        DB::table('tbl_log_type')->insert(
+            array(
+                'type' => 'Use'
+            )
+        );
+
+        DB::table('tbl_log_type')->insert(
+            array(
+                'type' => 'Modification'
+            )
+        );
+
     }
+
+
 
     /**
      * Reverse the migrations.

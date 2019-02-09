@@ -25,6 +25,30 @@ class MlpVariablesAndFileTypeIntelligence extends Migration
             $table->string('type', 200);
         });
 
+        DB::table('tbl_intelligence_data_type')->insert(
+            array(
+                'type' => 'Sheet'
+            )
+        );
+
+        DB::table('tbl_intelligence_data_type')->insert(
+            array(
+                'type' => 'Image'
+            )
+        );
+
+        DB::table('tbl_intelligence_data_type')->insert(
+            array(
+                'type' => 'Sound'
+            )
+        );
+
+        DB::table('tbl_intelligence_data_type')->insert(
+            array(
+                'type' => 'JSON'
+            )
+        );
+
         Schema::table('tbl_intelligence', function (Blueprint $table) {
             $table->integer('id_data_type')->unsigned();
             $table->foreign('id_data_type')->references('id')->on('tbl_intelligence_data_type');
