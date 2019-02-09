@@ -3,11 +3,11 @@ Octhum
 
 ### Introduction
 
-**Octhum** is a tool that allows an easy access of little enterprises to artificial intelligence, with transparency, and simplicity.
+Artificial Intelligences, initially, needs a base containing information that describes the application scope, to learn about it. The big problem is the reading of this base, done by each software in a different way. In an example, if person X needs a neural network to learn about whale species, he will use an application A. If he needs, in another moment, an application to learn about lion species, he will needs another application. 
 
-The solution is a REST API developed in PHP that works based in SaaS technology, allowing third-part software customisation.
+**Octhum** is a open-source platform that allows many intelligences in the same application, requiring only that the bases to learn about the scopes being in the same format, pre-defined. In this way, if the person X, cited previously, needs more than one intelligence applied to different scopes, he will have.
 
-**To more information, contact [vitorlofonseca@gmail.com](vitorlofonseca@gmail.com)**
+The solution is a REST API developed in PHP that works based in SaaS technology, allowing third-part software customisation (to forecast sells in a ERP, for example).
 
 ### Install
 
@@ -41,3 +41,41 @@ If something be wrong, follow instructions in http://php.net/manual/pt_BR/fann.i
 
 10 - Access http://localhost
 
+### Use
+
+The first screen is the intelligences list, containing all created intelligences. To create an intelligence, you should to click in button "Create Intelligence"
+
+![51731877_373631633368954_4241945447989510144_n](https://user-images.githubusercontent.com/16262664/52524390-8c700400-2c83-11e9-9769-a52fadec1194.png)
+
+A windows will be opened, containing some informations to be filled. We will create an intelligence to decide the color, based in RGB inputted.
+
+![51500057_2241259979419079_1891393182139154432_n](https://user-images.githubusercontent.com/16262664/52524426-03a59800-2c84-11e9-9514-366357d89fde.png)
+
+Filled the informations, we should select a file (in the moment only CSV format. There are two file examples actually, in the "files/tests" folder) **in the pre-defined model**, below:
+
+![screenshot_1](https://user-images.githubusercontent.com/16262664/52524456-54b58c00-2c84-11e9-8498-6bffcd13e1cc.png)
+
+In our case, classifications are the three possible colors that we defined, can be green, blue or yellow. Variables are the inputs that we will give to algorithm, to decide the classification. Octhum doesn't limit the classifications neither variables quantity.
+
+We will now input the informations to the Octhum process.
+
+![51683576_331753787682897_7245524332733005824_n](https://user-images.githubusercontent.com/16262664/52524550-487dfe80-2c85-11e9-8a1d-dd8f8bb1e961.png)
+
+Now that Octhum had learned about our scope, we will use the intelligence (clicking in "Use" button). A windows will appear, containing all variables defined in the base file (in our case, R, G and B). 
+
+![51535845_2028857120542761_2086102487961436160_n](https://user-images.githubusercontent.com/16262664/52524580-9b57b600-2c85-11e9-8c31-476fe410db21.png)
+
+Below, some obvious inputs made (255,0,0 obviously will be red, for example).
+
+![52087610_343240326401306_7531001652027850752_n](https://user-images.githubusercontent.com/16262664/52524612-f2f62180-2c85-11e9-9d08-2189962e4caf.png)
+![51713769_990908134436964_1715552307598327808_n](https://user-images.githubusercontent.com/16262664/52524614-f2f62180-2c85-11e9-898b-c61b6c23c9ef.png)
+![51833993_613220589121533_7533631907179790336_n](https://user-images.githubusercontent.com/16262664/52524615-f2f62180-2c85-11e9-9848-4ab02f0fc915.png)
+
+Below an example that isn't so obviously, matching with our interpretation, maybe.
+
+![51813402_2365761056990229_6958327669310095360_n](https://user-images.githubusercontent.com/16262664/52524650-7b74c200-2c86-11e9-9011-6227dc5891f3.png)
+![screenshot_2](https://user-images.githubusercontent.com/16262664/52524651-7b74c200-2c86-11e9-8af0-dec6c4d51dc4.png)
+
+Below a GET request example, putting the concatenated inputs on URL to know the classification
+
+![51747305_629296514150256_5706410501425070080_n](https://user-images.githubusercontent.com/16262664/52525035-be389900-2c8a-11e9-958c-3d7377aaf279.png)
