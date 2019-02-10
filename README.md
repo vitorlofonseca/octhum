@@ -3,9 +3,9 @@ Octhum
 
 ### Introduction
 
-Artificial Intelligences, initially, need a base containing information that describes the application scope, to learn about it. The big problem is the reading of this base, done by each software in a different way. In an example, if person X needs a neural network to learn about whale species, he will use an application A. If he needs, in another moment, an application to learn about lion species, he will needs another application. 
+There isn't an easy way to reuse artificial intelligence softwares. If you need to work with tumor patterns, you will need acquire a neural network that will have specific synapsis weights, and neuron quantities, applied to this scope. If you are a biologist and need recognize whales species by the their noises, you will need acquire another neural network platform, containing synapsis weights and neuron quantities completly different than the first case.
 
-**Octhum** is a open-source platform that allows many intelligences in the same application, requiring only that the bases to learn about the scopes being in the same format, pre-defined. In this way, if the person X, cited previously, needs more than one intelligence applied to different scopes, he will have.
+Octhum was made to solve this problem, training the intelligences with many models, verifying which model is the best, and using it. In this way, we can use various scopes in the same platform, with each scope using the the model that best suits. This is possible because Octhum require the same formatting in the database file content (showed below).
 
 The solution is a REST API developed in PHP that works based in SaaS technology, allowing third-part software customisation (to forecast sells in a ERP, for example).
 
@@ -61,7 +61,7 @@ We will now input the informations to the Octhum process.
 
 ![51683576_331753787682897_7245524332733005824_n](https://user-images.githubusercontent.com/16262664/52524550-487dfe80-2c85-11e9-8a1d-dd8f8bb1e961.png)
 
-Now that Octhum had learned about our scope, we will use the intelligence (clicking in "Use" button). A windows will appear, containing all variables defined in the base file (in our case, R, G and B). 
+Now that Octhum had learned about our scope, we will use the intelligence (clicking in "Use" button). A windows will appear, containing all variables defined in the database file (in our case, R, G and B). 
 
 ![51535845_2028857120542761_2086102487961436160_n](https://user-images.githubusercontent.com/16262664/52524580-9b57b600-2c85-11e9-8c31-476fe410db21.png)
 
